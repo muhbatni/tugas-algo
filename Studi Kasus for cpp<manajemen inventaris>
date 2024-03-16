@@ -1,0 +1,81 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <cstdio> // Sertakan header untuk sprintf
+
+using namespace std;
+
+// Struktur data untuk menyimpan informasi item
+struct Item {
+    string name;
+    float price;
+    int quantity;
+    string address;
+};
+
+// Fungsi untuk menambahkan item baru ke inventaris
+void addItem(vector<Item> &inventory) {
+    Item newItem;
+    cout << "Enter item details:" << endl;
+    cout << "Name: ";
+    cin.ignore();
+    getline(cin, newItem.name); // Membaca seluruh baris termasuk spasi
+    cout << "Price: ";
+    cin >> newItem.price;
+    cout << "Quantity: ";
+    cin >> newItem.quantity;
+
+    // Generate random address
+    char buffer[10]; // Buat buffer untuk menyimpan angka acak
+    sprintf(buffer, "%d", rand() % 10000 + 1000); // Konversi angka acak menjadi string
+    newItem.address = "0x" + string(buffer);
+
+    inventory.push_back(newItem);
+    cout << "Item added successfully." << endl;
+}
+
+// Fungsi untuk menampilkan seluruh inventaris
+void displayInventory(const vector<Item> &inventory) {
+    cout << "Inventory:" << endl;
+    for (size_t i = 0; i < inventory.size(); ++i) {
+        cout << "Item " << i + 1 << ":" << endl;
+        cout << "Name: " << inventory[i].name << endl;
+        cout << "Price: " << inventory[i].price << endl;
+        cout << "Quantity: " << inventory[i].quantity << endl;
+        cout << "Address: " << inventory[i].address << endl;
+    }
+}
+
+int main() {
+    vector<Item> inventory;
+    srand(time(0)); // Seed untuk menghasilkan angka acak yang berbeda setiap kali program dijalankan
+
+    int choice;
+    do {
+        cout << "\nInventory Management System" << endl;
+        cout << "1. Add Item" << endl;
+        cout << "2. Display Inventory" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addItem(inventory);
+                break;
+            case 2:
+                displayInventory(inventory);
+                break;
+            case 3:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+                break;
+        }
+    } while (choice != 3);
+
+    return 0;
+}
